@@ -104,7 +104,7 @@ This binding contains three sets of files:
 2. The testing scripts and zmq guide examples are in `Scripts` directory. All
    script files are designed for MQL5 (.mq5 extension) and MetaTrader5.
 
-3. Precompiled 64bit DLLs (`Library/MT5`) of ZeroMQ (4.2.0) and libsodium
+3. Precompiled 64bit DLLs (`Library`) of ZeroMQ (4.2.0) and libsodium
    (1.0.11) are provided for MetaTrader5. Copy the DLLs to the `Library` folder
    of your MetaTrader5 terminal. **The DLLs require that you have the latest
    Visual C++ runtime (2015)**.
@@ -144,7 +144,7 @@ examples to this binding, but now only the hello world example is provided. I
 will gradually add those examples. Of course forking this binding if you are
 interested and welcome to send pull requests.
 
-Here is a sample from `HelloWorldServer.mq4`:
+Here is a sample from `HelloWorldServer.mq5`:
 
 ```c++
 #include <Zmq/Zmq.mqh>

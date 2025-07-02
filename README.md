@@ -6,7 +6,7 @@ ZMQ binding for MQL5 language (64bit MT5)
   - [Introduction](#introduction)
   - [Why This Fork](#why-this-fork)
   - [Major Fixes](#major-fixes)
-    - [1. MQL5 ZeroMQ Type Conversion Errors (17 compilation errors fixed)](#1-mql5-zeromq-type-conversion-errors-17-compilation-errors-fixed)
+    - [1. MQL5 ZeroMQ Type Conversion Errors](#1-mql5-zeromq-type-conversion-errors)
     - [2. MQL5 Property Compatibility Issues](#2-mql5-property-compatibility-issues)
     - [Fix Strategy](#fix-strategy)
   - [Files and Installation](#files-and-installation)
@@ -36,11 +36,11 @@ differences in type systems and runtime environments.
 ## Why This Fork
 This fork was created to address critical compilation errors and compatibility
 issues that prevented the original mql5-zmq library from working with modern
-MQL5 environments. The original project had 17 compilation errors related to
+MQL5 environments. The original project had compilation errors related to
 type conversion issues and deprecated MQL5 properties.
 
 ## Major Fixes
-### 1. MQL5 ZeroMQ Type Conversion Errors (17 compilation errors fixed)
+### 1. MQL5 ZeroMQ Type Conversion Errors
 
 **Root Cause**: MQL5's strict type system doesn't allow implicit conversion between `char[]` and `uchar[]` arrays.
 
@@ -185,7 +185,7 @@ void OnStart()
 ### Fork Changes (2025)
 
 * 2025-07-02: Released 1.6: Complete MQL5 compatibility fixes
-  - Fixed 17 compilation errors related to `char[]`/`uchar[]` type conversion issues
+  - Fixed compilation errors related to `char[]`/`uchar[]` type conversion issues
   - Added proper function overloads in `Native.mqh` for type conversion handling
   - Fixed all ZeroMQ binding files (`Z85.mqh`, `SocketOptions.mqh`, `Socket.mqh`, `ZmqMsg.mqh`, `Zmq.mqh`)
   - Removed deprecated `#property show_inputs` from example scripts

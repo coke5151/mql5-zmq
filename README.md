@@ -184,7 +184,7 @@ void OnStart()
 ## Changes
 ### Fork Changes (2025)
 
-* **2025-01-XX**: **Major Fork Release**: Complete MQL5 compatibility fixes
+* 2025-07-02: Released 1.6: Complete MQL5 compatibility fixes
   - Fixed 17 compilation errors related to `char[]`/`uchar[]` type conversion issues
   - Added proper function overloads in `Native.mqh` for type conversion handling
   - Fixed all ZeroMQ binding files (`Z85.mqh`, `SocketOptions.mqh`, `Socket.mqh`, `ZmqMsg.mqh`, `Zmq.mqh`)

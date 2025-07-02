@@ -1,5 +1,4 @@
 # mql5-zmq
-
 ZMQ binding for MQL5 language (64bit MT5)
 
 - [mql5-zmq](#mql5-zmq)
@@ -10,6 +9,9 @@ ZMQ binding for MQL5 language (64bit MT5)
     - [2. MQL5 Property Compatibility Issues](#2-mql5-property-compatibility-issues)
     - [Fix Strategy](#fix-strategy)
   - [Files and Installation](#files-and-installation)
+  - [Strategy Tester Configuration (Important!)](#strategy-tester-configuration-important)
+      - [The Problem](#the-problem)
+      - [The Solution](#the-solution)
   - [About string encoding](#about-string-encoding)
   - [Notes on context creation](#notes-on-context-creation)
   - [Usage](#usage)
@@ -109,11 +111,35 @@ This binding contains three sets of files:
    of your MetaTrader5 terminal. **The DLLs require that you have the latest
    Visual C++ runtime (2015)**.
 
-   *Note* that these DLLs are compiled from official sources, without any
-   modification. You can compile your own if you don't trust these binaries. The
-   `libsodium.dll` is copied from the official binary release. If you want to
-   support security mechanisms other than `curve`, or you want to use transports
-   like OpenPGM, you need to compile your own DLL.
+   *Note* that these DLLs are compiled from official sources, without any modification. You can compile your own if you don't trust these binaries. The `libsodium.dll` is copied from the official binary release. If you want to support security mechanisms other than `curve`, or you want to use transports like OpenPGM, you need to compile your own DLL.
+
+## Strategy Tester Configuration (Important!)
+If you plan to use this library within an Expert Advisor (EA) in the MetaTrader 5 **Strategy Tester**, you must perform a one-time manual setup step.
+
+#### The Problem
+The Strategy Tester runs EAs in a sandboxed environment. When a test starts, MetaTrader copies the required DLLs to a temporary agent folder. However, it only copies DLLs explicitly imported in the code (i.e., **libzmq.dll**). It **fails to copy secondary dependencies**, such as **libsodium.dll** (which **libzmq.dll** needs to function).
+
+This results in a critical error during the EA's initialization in the tester, even though it works perfectly in live trading.
+
+#### The Solution
+You must manually copy **libsodium.dll** into the specific tester agent's `Libraries` folder.
+
+1.  **Locate the Source File**:
+    Go to your main terminal's data folder (`File` > `Open Data Folder`) and navigate to `MQL5/Libraries`. You will find **libsodium.dll** here.
+
+2.  **Locate the Destination Folder**:
+    The Strategy Tester creates a unique folder for its agent. The path looks like this:
+    `<Terminal_Data_Folder>/Tester/<AGENT_FOLDER_NAME>/MQL5/Libraries/`
+
+    The easiest way to find the exact `<AGENT_FOLDER_NAME>` is:
+    * Run a backtest with your EA once. It's expected to fail.
+    * Go to the **"Journal"** tab in the Strategy Tester window.
+    * Find the error message. It will contain the full path to the agent's log file. From there, you can navigate to its `MQL5/Libraries` folder.
+
+3.  **Copy the DLL**:
+    Copy **libsodium.dll** from the source folder (Step 1) and paste it into the destination folder (Step 2).
+
+After performing this step once, your EA will run correctly in the Strategy Tester.
 
 ## About string encoding
 MQL strings are Win32 UNICODE strings (basically 2-byte UTF-16). In this binding
@@ -184,6 +210,7 @@ void OnStart()
 ## Changes
 ### Fork Changes (2025)
 
+* 2025-07-03: Released 1.6.1: Add tutorial on how to use the library in the Strategy Tester in `README.md`
 * 2025-07-02: Released 1.6: Complete MQL5 compatibility fixes
   - Fixed compilation errors related to `char[]`/`uchar[]` type conversion issues
   - Added proper function overloads in `Native.mqh` for type conversion handling
